@@ -65,7 +65,9 @@ service cloud.firestore {
              data.gender in ['male', 'female', 'non-binary', 'other'] &&
              data.interestedIn is list &&
              data.birthDate is string &&
-             data.createdAt is timestamp;
+             data.createdAt is timestamp &&
+             (!('interests' in data) || (data.interests is list)) &&
+             (!('bio' in data) || (data.bio is string && data.bio.size() < 500));
     }
 
     function isValidSwipe(data) {

@@ -103,6 +103,50 @@ export default function Profile({ profile, onUpdate }: ProfileProps) {
           </div>
         </div>
 
+        {/* Interests Section */}
+        <div className="bg-white p-6 rounded-3xl border border-zinc-100 space-y-4 shadow-sm">
+          <div className="flex items-center justify-between">
+            <h3 className="font-black text-zinc-900 uppercase tracking-wider text-sm">Interests</h3>
+            <button 
+              onClick={() => editing ? handleSave() : setEditing(true)}
+              className="text-rose-500 font-bold text-xs uppercase tracking-widest hover:text-rose-600 transition-colors flex items-center gap-1"
+            >
+              {saving ? 'Saving...' : editing ? <><Save className="w-3 h-3" /> Save</> : 'Edit'}
+            </button>
+          </div>
+          
+          <div className="flex flex-wrap gap-2">
+            {editing ? (
+              ['Music', 'Travel', 'Cooking', 'Hiking', 'Gaming', 'Art', 'Movies', 'Sports', 'Photography', 'Reading', 'Dancing', 'Yoga'].map(interest => (
+                <button
+                  key={interest}
+                  onClick={() => {
+                    const current = formData.interests || [];
+                    const next = current.includes(interest)
+                      ? current.filter(i => i !== interest)
+                      : [...current, interest];
+                    setFormData({ ...formData, interests: next });
+                  }}
+                  className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all ${
+                    (formData.interests || []).includes(interest) ? 'bg-rose-500 text-white' : 'bg-zinc-100 text-zinc-600'
+                  }`}
+                >
+                  {interest}
+                </button>
+              ))
+            ) : (
+              (profile.interests || []).map(interest => (
+                <div key={interest} className="bg-zinc-100 text-zinc-600 px-3 py-1.5 rounded-xl text-xs font-bold">
+                  {interest}
+                </div>
+              ))
+            )}
+            {!editing && (!profile.interests || profile.interests.length === 0) && (
+              <p className="text-zinc-400 text-sm font-medium italic">No interests added yet.</p>
+            )}
+          </div>
+        </div>
+
         {/* Menu Items */}
         <div className="bg-white rounded-3xl border border-zinc-100 overflow-hidden shadow-sm">
           {menuItems.map((item, i) => {

@@ -107,6 +107,31 @@ export default function Onboarding({ user, onComplete }: OnboardingProps) {
       )
     },
     {
+      title: "What are your interests?",
+      icon: Heart,
+      content: (
+        <div className="flex flex-wrap gap-2">
+          {['Music', 'Travel', 'Cooking', 'Hiking', 'Gaming', 'Art', 'Movies', 'Sports', 'Photography', 'Reading', 'Dancing', 'Yoga'].map(interest => (
+            <button
+              key={interest}
+              onClick={() => {
+                const current = formData.interests;
+                const next = current.includes(interest)
+                  ? current.filter(i => i !== interest)
+                  : [...current, interest];
+                setFormData({ ...formData, interests: next });
+              }}
+              className={`px-4 py-2 rounded-xl font-medium transition-all ${
+                formData.interests.includes(interest) ? 'bg-rose-500 text-white shadow-md shadow-rose-100' : 'bg-white border border-zinc-200 text-zinc-600'
+              }`}
+            >
+              {interest}
+            </button>
+          ))}
+        </div>
+      )
+    },
+    {
       title: "Tell us about yourself",
       icon: Camera,
       content: (
