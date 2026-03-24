@@ -1,0 +1,63 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "User Profile",
+      "description": "User profile information for dating.",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "description": "User's unique ID" },
+        "displayName": { "type": "string", "description": "User's display name" },
+        "photoURL": { "type": "string", "description": "User's profile picture URL" },
+        "bio": { "type": "string", "description": "User's biography" },
+        "gender": { "type": "string", "enum": ["male", "female", "non-binary", "other"] },
+        "interestedIn": { "type": "array", "items": { "type": "string" } },
+        "birthDate": { "type": "string", "format": "date", "description": "User's birth date" },
+        "interests": { "type": "array", "items": { "type": "string" } },
+        "location": { "type": "object", "properties": { "latitude": { "type": "number" }, "longitude": { "type": "number" } } },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["uid", "displayName", "photoURL", "gender", "interestedIn", "birthDate"]
+    },
+    "Match": {
+      "title": "Match",
+      "description": "A match between two users.",
+      "type": "object",
+      "properties": {
+        "users": { "type": "array", "items": { "type": "string" }, "description": "Array of two user UIDs" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "lastMessage": { "type": "string" },
+        "lastMessageAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["users", "createdAt"]
+    },
+    "Message": {
+      "title": "Message",
+      "description": "A chat message.",
+      "type": "object",
+      "properties": {
+        "senderId": { "type": "string" },
+        "text": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["senderId", "text", "createdAt"]
+    },
+    "Swipe": {
+      "title": "Swipe",
+      "description": "A swipe action (like/dislike).",
+      "type": "object",
+      "properties": {
+        "fromUid": { "type": "string" },
+        "toUid": { "type": "string" },
+        "type": { "type": "string", "enum": ["like", "pass"] },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["fromUid", "toUid", "type", "createdAt"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": { "schema": "UserProfile", "description": "User profiles" },
+    "/swipes/{swipeId}": { "schema": "Swipe", "description": "User swipes" },
+    "/matches/{matchId}": { "schema": "Match", "description": "Matches between users" },
+    "/matches/{matchId}/messages/{messageId}": { "schema": "Message", "description": "Chat messages in a match" }
+  }
+}

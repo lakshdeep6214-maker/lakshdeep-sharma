@@ -1,0 +1,5 @@
+{
+  "name": "Spark - Modern Dating",
+  "description": "A modern dating platform with real-time matching, profiles, and chat.",
+  "requestFramePermissions": ["camera", "microphone", "geolocation"]
+}
